@@ -1,0 +1,8 @@
+h3{
+    display: inline;
+    display: table-cell;
+    vertical-align: middle
+}
+.unselectable{
+    filter: brightness(50%);
+}

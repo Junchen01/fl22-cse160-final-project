@@ -11,13 +11,17 @@
     "type": "git",
     "url": "git+https://github.com/Junchen01/fl22-cse160-final-project.git"
   },
-  "author": "Junchen Bao jub424@lehigh.edu, Shuangge Yang shy224@lehigh.edu",
+  "author": "Junchen Bao jub424@lehigh.edu",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Junchen01/fl22-cse160-final-project/issues"
   },
   "homepage": "https://github.com/Junchen01/fl22-cse160-final-project#readme",
   "dependencies": {
-    "express": "^4.18.2"
-  }
+    "express": "^4.18.2",
+    "poker-odds": "^1.0.1",
+    "poker-odds-calc": "^0.0.14",
+    "poker-odds-calculator": "^0.3.1"
+  },
+  "type": "module"
 }
