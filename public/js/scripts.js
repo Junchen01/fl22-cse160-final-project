@@ -1,5 +1,5 @@
 let suits = ["s", "h", "c", "d"];
-let values = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K"];
+let values = ["A", "K", "Q", "J", "T", "9", "8", "7", "6", "5", "4", "3", "2"];
 
 let deck;
 let playercount = 0;
@@ -7,6 +7,9 @@ let hands = [];
 let board = [];
 let onSelect = false;
 let onSelectObject = null;
+
+let checkempty = true;
+let checkboard = true;
 
 function createDeck(){
     let deck = new Array();
@@ -28,15 +31,22 @@ function createDeck(){
 }
 
 function displayDeck(deck){
-    for(let i = 0; i < deck.length; i++){
-        let img_tmp = '<img src="' + deck[i].path + '"';
-        img_tmp += 'alt="' + deck[i].value + deck[i].suit + '"';
-        img_tmp += 'id="' + deck[i].value + deck[i].suit + '"';
-        img_tmp += 'class="selectable"';
-        img_tmp += 'width="50"';
-        img_tmp += 'onclick="selectDeck(this)">';
-        $("#deck").append(img_tmp);
+    let i = 0;
+    let img_tmp = '';
+    for(let j = 0; j < 4; j++){
+        img_tmp += '<tr>';
+        for(let k = 0; k < 13; k++){
+            img_tmp += '<td><img src="' + deck[i].path + '"';
+            img_tmp += 'alt="' + deck[i].value + deck[i].suit + '"';
+            img_tmp += 'id="' + deck[i].value + deck[i].suit + '"';
+            img_tmp += 'class="selectable"';
+            img_tmp += 'width="50"';
+            img_tmp += 'onclick="selectDeck(this)"></td>';
+            i++;
+        }
+        img_tmp += '</tr>';
     }
+    $("#deck").append(img_tmp);
 }
 
 function addPlayer(){
@@ -48,11 +58,10 @@ function addPlayer(){
         player_tmp += 'alt="empty card"';
         player_tmp += 'id="palyer' + playercount + '-' + (i+1) + '"';
         player_tmp += 'width="75"';
-        player_tmp += 'class="empty player1"';
+        player_tmp += 'class="empty player' + playercount + '"';
         player_tmp += 'onclick="selectCard(this)">';
     }
     $("#players").append(player_tmp);
-    hands.push[null,null];
 }
 
 function removePlayer(){
@@ -117,6 +126,49 @@ function setupPlayers(){
     }
 }
 
+function getBoardCard(){
+    board = [];
+    $('.board').each(function() {
+        if($(this).attr("alt") !== 'empty card'){
+            board.push($(this).attr("alt"));
+        }
+    });
+    if(board.length === 1 || board.length === 2){
+        return false;
+    }else{
+        return true;
+    }
+}
+
+function getPlayersCard(){
+    checkempty = true;
+    hands = [];
+    for(let i = 0; i < playercount; i++){
+        let playerCard_tmp = [];
+        $('.player' + (i+1)).each(function() {
+            if($(this).attr("alt") !== 'empty card'){
+                playerCard_tmp.push($(this).attr("alt"));
+            }else{
+                checkempty = false;
+            }
+        });
+        hands.push(playerCard_tmp);
+    }
+    return checkempty;
+}
+
+function getCardArrays(){
+    if(!getBoardCard()){
+        alert('must be the situation of PREFLOP, FLOP, TURN or RIVER\n(0/3/4/5 cards on the board)');
+        return false;
+    }else if(!getPlayersCard()){
+        alert('must fill out ALL players card!');
+        return false;
+    }else{
+        return true;
+    }
+}
+
 $("#deck").empty().appendTo("hi");
 
 $(() => {
@@ -142,34 +194,31 @@ $(() => {
     });
 
     $("#new").unbind().click(() => {
-        board = [];
-        $('.board').each(function() {
-            if($(this).attr("alt") !== 'empty card'){
-                board.push($(this).attr("alt"));
-            }
-        });
-        console.log(board)
+        
     });
 
     $("#calculate").unbind().click(() => {
-        $.ajax(
-            "/calculate",
-            {
-              type: "GET",
-              data: {
-                hands: hands,
-                board: board
-              },
-              dataType: "text",
-              success: function (json) {
-                $("#tableBody").html(json)
-              },
-              error: function (jqXHR, textStatus, errorThrown) {
-                alert("Error: " + jqXHR.responseText);
-                alert("Error: " + textStatus);
-                alert("Error: " + errorThrown);
-              }
-            }
-          )
+        if(getCardArrays()){
+            $.ajax(
+                "/calculate",
+                {
+                  type: "GET",
+                  data: {
+                    hands: hands,
+                    board: board
+                  },
+                  dataType: "text",
+                  success: function (json) {
+                    console.log("hi")
+                    console.log(JSON.parse(json));
+                  },
+                  error: function (jqXHR, textStatus, errorThrown) {
+                    alert("Error: " + jqXHR.responseText);
+                    alert("Error: " + textStatus);
+                    alert("Error: " + errorThrown);
+                  }
+                }
+              )
+        }
     });
 });
