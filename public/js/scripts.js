@@ -43,9 +43,14 @@ function addPlayer(){
     playercount++;
     let player_tmp = '<div id="' + playercount + '">';
     player_tmp += '<h3>Player ' + playercount + ':</h3>';
-    player_tmp += '<img src="card/back.png" alt="Girl in a jacket" width="75">';
-    player_tmp += '<img src="card/back.png" alt="Girl in a jacket" width="75">';
-    player_tmp += '</div>'; 
+    for(let i = 0; i < 2; i++){
+        player_tmp += '<img src="card/back.png"';
+        player_tmp += 'alt="empty card"';
+        player_tmp += 'id="palyer' + playercount + '-' + (i+1) + '"';
+        player_tmp += 'width="75"';
+        player_tmp += 'class="empty player1"';
+        player_tmp += 'onclick="selectCard(this)">';
+    }
     $("#players").append(player_tmp);
     hands.push[null,null];
 }
@@ -60,7 +65,7 @@ function setupBoard(){
     for(let i = 0; i < 5; i++){
         let boardCard_tmp = '<img src="card/back.png"';
         boardCard_tmp += 'alt="empty card"';
-        boardCard_tmp += 'id="board"';
+        boardCard_tmp += 'id="board' + (i+1) + '"';
         boardCard_tmp += 'width="75"';
         boardCard_tmp += 'class="empty board"';
         boardCard_tmp += 'onclick="selectCard(this)">';
