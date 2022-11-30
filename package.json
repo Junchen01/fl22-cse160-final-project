@@ -1,0 +1,23 @@
+{
+  "name": "fl22-cse160-final-project",
+  "version": "1.0.0",
+  "description": "final project of cse264 fall2022 lehigh",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Junchen01/fl22-cse160-final-project.git"
+  },
+  "author": "Junchen Bao jub424@lehigh.edu, Shuangge Yang shy224@lehigh.edu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Junchen01/fl22-cse160-final-project/issues"
+  },
+  "homepage": "https://github.com/Junchen01/fl22-cse160-final-project#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
