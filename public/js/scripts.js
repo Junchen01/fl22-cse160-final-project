@@ -234,22 +234,30 @@ function showResulet(result){
     //     $('#'+ (i + 1)).append(result_tmp);
     // }
     for(let i = 0; i < playercount ; i++){
-        let result_tmp = '<div class="result"><p>win: ' + '</p>';
-        result_tmp += '<p>tie: ' + '</p></div>';
-        $('#'+ (i + 1)).after(result_tmp);
+        let result_tmp = '<div class="result"><h4>win: ' + result[i].win + '</h4>';
+        result_tmp += '<h4>tie: ' + result[i].tie + '</h4></div>';
+        $('#'+ (i + 1)).append(result_tmp);
     }
     showResuletTable(result);
 }
 
 function showResuletTable(result){
     let resultTable = '';
-    resultTable += '<tr><td></td><td></td></tr>'
+    resultTable += '<tr>';
+    resultTable += '<td>Rank</td>';
+    for(let j = 0; j < result.length; j++){
+        resultTable += '<td>Player' + j + '</td>';
+    }
+    resultTable += '</tr>';
     for(let i = 0; i < 10; i++){
         resultTable += '<tr>';
-        for(let j = 0; j < 2; j++){
-
+        resultTable += "<td><p>" + result[0].handProbs[i].name + "</p></td>";
+        for(let j = 0; j < result.length; j++){
+            resultTable += "<td><p>" + result[j].handProbs[i].prob + "</p></td>";
         }
+        resultTable += "</tr>"
     }
+    $("#resultTB").empty().append(resultTable);
 }
 
 
@@ -277,7 +285,12 @@ $(() => {
     });
 
     $("#new").unbind().click(() => {
-        
+        playercount = 0;
+        deck = createDeck();
+        displayDeck(deck);
+        setupBoard();
+        setupPlayers();
+        $('#resultTB').empty();
     });
     
 

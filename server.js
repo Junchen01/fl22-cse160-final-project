@@ -24,16 +24,16 @@ function cal_hands(hands,board){
 }
 
 function cal_probs(hands_output){
-    let probs_output= []
+    let probs_output= [];
     for(let i = 0; i < hands_output.length; i++){
         let total_hand = hands_output[i].count;
-        let win_rate = (hands_output[i].wins/total_hand).toFixed(2) + '%';
-        let tie_rate = (hands_output[i].ties/total_hand).toFixed(2) + '%';
+        let win_rate = (hands_output[i].wins/total_hand * 100).toFixed(2) + '%';
+        let tie_rate = (hands_output[i].ties/total_hand * 100).toFixed(2) + '%';
         let handProbs = [];
         for(let j = 0; j < hands_output[i].handChances.length; j++){
             let name_temp = hands_output[i].handChances[j].name;
             let count_temp = hands_output[i].handChances[j].count;
-            let prob_tmp = (count_temp/total_hand).toFixed(2) + '%';;
+            let prob_tmp = (count_temp/total_hand * 100).toFixed(2) + '%';;
             handProbs.push({name: name_temp, prob: prob_tmp});
         }
         let player = { count: total_hand, win: win_rate, tie: tie_rate, handProbs: handProbs};
@@ -54,10 +54,5 @@ app.get("/calculate", function(req, res) {
     let output_json = JSON.stringify(output);
     res.end(output_json);
 });
-
-const hands = [['As', 'Kh'], ['Kd', 'Qd']]
-const board = []
-
-
 
 app.listen(3000, () => console.log("Starting up poker game"));

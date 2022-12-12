@@ -1,11 +1,41 @@
 h3{
     display: inline;
     display: table-cell;
-    vertical-align: middle
+    vertical-align: middle;
+    color: rgb(255, 255, 255);
 }
-.player{
-    float: left;
+h4{
+    background-color: rgb(253, 195, 103);
+}
+#resultTB{
+    background-color: rgb(157, 160, 156);
+}
+table, th, td {
+    border: 1px solid;
+    margin: 0px auto;
+}
+table{
+    table-layout: fixed ;
+}
+th {
+    border: 1px solid black;
+    text-align: center;
+    padding: 10px;
+}
+td {
+    text-align: left;
 }
 .unselectable{
     filter: brightness(50%);
+}
+
+#left{
+    width: 500px; float: left;
+}
+
+#right{
+    margin-left: 550px;
+}
+body{
+    background-image: url('../card/mat.jpg');
 }
