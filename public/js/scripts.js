@@ -11,6 +11,11 @@ let onSelectObject = null;
 let checkempty = true;
 let checkboard = true;
 
+/**
+ * use two for loop to creat object of poker with suits, value, weight and path to img
+ * 
+ * @returns the deck of poker
+ */
 function createDeck(){
     let deck = new Array();
     for(var j = 0; j < suits.length; j++){
@@ -30,6 +35,11 @@ function createDeck(){
     return deck;
 }
 
+/**
+ * add the poker image to a html table sting and use jquery to append it
+ * 
+ * @param {*} deck the deck of poker we want to display
+ */
 function displayDeck(deck){
     let i = 0;
     let img_tmp = '';
@@ -46,12 +56,16 @@ function displayDeck(deck){
         }
         img_tmp += '</tr>';
     }
-    $("#deck").append(img_tmp);
+    $("#deck").empty().append(img_tmp);
 }
 
+
+/**
+ * add a player and two empty card back, add to the html by use jquery
+ */
 function addPlayer(){
     playercount++;
-    let player_tmp = '<div id="' + playercount + '">';
+    let player_tmp = '<div id="' + playercount + '" class="player">';
     player_tmp += '<h3>Player ' + playercount + ':</h3>';
     for(let i = 0; i < 2; i++){
         player_tmp += '<img src="card/back.png"';
@@ -61,27 +75,46 @@ function addPlayer(){
         player_tmp += 'class="empty player' + playercount + '"';
         player_tmp += 'onclick="selectCard(this)">';
     }
+    player_tmp += '</div>';
     $("#players").append(player_tmp);
 }
 
+/**
+ * remove a play div use the jquery
+ */
 function removePlayer(){
     $("#"+ playercount).remove();
     hands.pop();
     playercount--;
 }
 
+/**
+ * set up an emppty board add this to the div in the html
+ */
 function setupBoard(){
+    let boardCard_tmp = '';
     for(let i = 0; i < 5; i++){
-        let boardCard_tmp = '<img src="card/back.png"';
+        boardCard_tmp += '<img src="card/back.png"';
         boardCard_tmp += 'alt="empty card"';
         boardCard_tmp += 'id="board' + (i+1) + '"';
         boardCard_tmp += 'width="75"';
         boardCard_tmp += 'class="empty board"';
         boardCard_tmp += 'onclick="selectCard(this)">';
-        $("#board").append(boardCard_tmp);
     }
+    $("#board").empty().append(boardCard_tmp);
 }
 
+/**
+ * handle the click happen on the board
+ * If this card has been selected:
+ *      we remove the content and set back to empty card;
+ * If this card has not been selected:
+ *      we check if this hilgh light or not:
+ *              If is, remove the high light
+ *              else highlit it.
+ *
+ * @param {*} img the object img that been cleck
+ */
 function selectCard(img){
     if(img.classList.contains('selected')){
         img.src = 'card/back.png';
@@ -106,6 +139,14 @@ function selectCard(img){
     }
 }
 
+/**
+ * handle the cilck on the deck
+ * only work when there is a selectable borad card is high light
+ * set the deck card to the dard style(by change color)
+ * copy this to the board card.
+ * 
+ * @param {*} img the object img that been cleck
+ */
 function selectDeck(img){
     if(onSelect && img.classList.contains('selectable')){
         onSelectObject.src = img.src;
@@ -120,12 +161,21 @@ function selectDeck(img){
     }
 }
 
+/**
+ * set up two player
+ */
 function setupPlayers(){
+    $("#players").empty();
     for(let i = 0; i < 2; i++){
         addPlayer();
     }
 }
 
+/**
+ * get the card value on board as array
+ * @returns false if is not the preflop, flop, turn river; 
+ *          true for correct situation
+ */
 function getBoardCard(){
     board = [];
     $('.board').each(function() {
@@ -140,6 +190,10 @@ function getBoardCard(){
     }
 }
 
+/**
+ * get the card value of players as array of array
+ * @returns true for all play have two card; false otherwise
+ */
 function getPlayersCard(){
     checkempty = true;
     hands = [];
@@ -157,6 +211,10 @@ function getPlayersCard(){
     return checkempty;
 }
 
+/**
+ * call getBoardCard() and getPlayersCard() to get card infor
+ * @returns true for ok to calculate; false otherwise
+ */
 function getCardArrays(){
     if(!getBoardCard()){
         alert('must be the situation of PREFLOP, FLOP, TURN or RIVER\n(0/3/4/5 cards on the board)');
@@ -169,13 +227,38 @@ function getCardArrays(){
     }
 }
 
-$("#deck").empty().appendTo("hi");
+function showResulet(result){
+    // for(let i = 0; i < playercount ; i++){
+    //     let result_tmp = '<p>win: ' + result[i].win + '</p>';
+    //     result_tmp += '<p>tie: ' + result[i].tie + '</p>';
+    //     $('#'+ (i + 1)).append(result_tmp);
+    // }
+    for(let i = 0; i < playercount ; i++){
+        let result_tmp = '<div class="result"><p>win: ' + '</p>';
+        result_tmp += '<p>tie: ' + '</p></div>';
+        $('#'+ (i + 1)).after(result_tmp);
+    }
+    showResuletTable(result);
+}
+
+function showResuletTable(result){
+    let resultTable = '';
+    resultTable += '<tr><td></td><td></td></tr>'
+    for(let i = 0; i < 10; i++){
+        resultTable += '<tr>';
+        for(let j = 0; j < 2; j++){
+
+        }
+    }
+}
+
 
 $(() => {
     deck = createDeck();
     displayDeck(deck);
     setupBoard();
     setupPlayers();
+    //showResulet(null)
 
     $("#add").unbind().click(() => {
         if(playercount < 9){
@@ -196,6 +279,7 @@ $(() => {
     $("#new").unbind().click(() => {
         
     });
+    
 
     $("#calculate").unbind().click(() => {
         if(getCardArrays()){
@@ -209,8 +293,9 @@ $(() => {
                   },
                   dataType: "text",
                   success: function (json) {
-                    console.log("hi")
-                    console.log(JSON.parse(json));
+                    let result = JSON.parse(json)
+                    console.log(result);
+                    showResulet(result);
                   },
                   error: function (jqXHR, textStatus, errorThrown) {
                     alert("Error: " + jqXHR.responseText);
