@@ -258,8 +258,7 @@ function showResuletTable(result){
         resultTable += '<tr>';
         resultTable += '<td style="background-color:rgb(129, 200, 250, 0.8);"><p>' + result[0].handProbs[i].name + '</p></td>';
         for(let j = 0; j < result.length; j++){
-            console.log(result[j].handProbs[i].rank_num);
-            if(result[j].handProbs[i].rank_num == 0){
+            if(result[j].handProbs[i].rank_num < 0.01){
                 resultTable += '<td style="background-color:rgba(253, 103, 103,0.4);"><p>';
                 resultTable +=  result[j].handProbs[i].prob + '</p></td>';
             }else{
@@ -341,8 +340,7 @@ $(() => {
                   },
                   dataType: "text",
                   success: function (json) {
-                    let result = JSON.parse(json)
-                    console.log(result);
+                    let result = JSON.parse(json);
                     showResulet(result);
                   },
                   error: function (jqXHR, textStatus, errorThrown) {
