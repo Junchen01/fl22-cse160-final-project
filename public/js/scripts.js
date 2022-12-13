@@ -76,6 +76,7 @@ function addPlayer(){
         player_tmp += 'onclick="selectCard(this)">';
     }
     player_tmp += '</div>';
+    player_tmp += '<div style="clear:both;"></div>';
     $("#players").append(player_tmp);
 }
 
@@ -227,20 +228,23 @@ function getCardArrays(){
     }
 }
 
+/**
+ * it add the win and tie rate to each player
+ * @param {*} result the result structer save the result of the prob
+ */
 function showResulet(result){
-    // for(let i = 0; i < playercount ; i++){
-    //     let result_tmp = '<p>win: ' + result[i].win + '</p>';
-    //     result_tmp += '<p>tie: ' + result[i].tie + '</p>';
-    //     $('#'+ (i + 1)).append(result_tmp);
-    // }
     for(let i = 0; i < playercount ; i++){
-        let result_tmp = '<div class="result"><h4>win: ' + result[i].win + '</h4>';
-        result_tmp += '<h4>tie: ' + result[i].tie + '</h4></div>';
-        $('#'+ (i + 1)).append(result_tmp);
+        let result_tmp = '<div class="result"><br><br><div class="innerResult"><h4>win: ' + result[i].win + '</h4>';
+        result_tmp += '<h4>tie: ' + result[i].tie + '</h4></div></div>';
+        $('#'+ (i + 1)).after(result_tmp);
     }
     showResuletTable(result);
 }
 
+/**
+ * it use two forloop to create a table and append to this table
+ * @param {*} result the result structer save the result of the prob
+ */
 function showResuletTable(result){
     let resultTable = '';
     resultTable += '<tr>';
@@ -260,8 +264,10 @@ function showResuletTable(result){
     $("#resultTB").empty().append(resultTable);
 }
 
+/**
+ * put the whole page in to one pdf and downlode it
+ */
 function getPDF(){
-
     var HTML_Width = $(".canvas_div_pdf").width();
     var HTML_Height = $(".canvas_div_pdf").height();
     var top_left_margin = 15;
@@ -269,26 +275,16 @@ function getPDF(){
     var PDF_Height = (PDF_Width*1.5)+(top_left_margin*2);
     var canvas_image_width = HTML_Width;
     var canvas_image_height = HTML_Height;
-    
     var totalPDFPages = Math.ceil(HTML_Height/PDF_Height)-1;
-    
-
     html2canvas($(".canvas_div_pdf")[0],{allowTaint:true}).then(function(canvas) {
         canvas.getContext('2d');
-        
-        console.log(canvas.height+"  "+canvas.width);
-        
-        
         var imgData = canvas.toDataURL("image/jpeg", 1.0);
         var pdf = new jsPDF('p', 'pt',  [PDF_Width, PDF_Height]);
         pdf.addImage(imgData, 'JPG', top_left_margin, top_left_margin,canvas_image_width,canvas_image_height);
-        
-        
         for (var i = 1; i <= totalPDFPages; i++) { 
             pdf.addPage(PDF_Width, PDF_Height);
             pdf.addImage(imgData, 'JPG', top_left_margin, -(PDF_Height*i)+(top_left_margin*4),canvas_image_width,canvas_image_height);
-        }
-        
+        }        
         pdf.save("HTML-Document.pdf");
     });
 };
@@ -298,7 +294,6 @@ $(() => {
     displayDeck(deck);
     setupBoard();
     setupPlayers();
-    //showResulet(null)
 
     $("#add").unbind().click(() => {
         if(playercount < 9){

@@ -30,12 +30,27 @@ td {
 }
 
 #left{
-    width: 500px; float: left;
+    width: 700px; float: left;
 }
 
 #right{
-    margin-left: 550px;
+    margin-left: 720px;
 }
+
+.player{
+    width: 180px; float: left;
+}
+
+.result{
+    margin-left: 180px;
+    width: 100px;
+    text-align: center;
+}
+
+.innerResult{
+    background-color: rgb(253, 195, 103);
+}
+
 body{
     background-image: url('../card/mat.jpg');
 }
