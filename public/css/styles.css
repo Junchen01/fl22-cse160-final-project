@@ -30,11 +30,11 @@ td {
 }
 
 #left{
-    width: 700px; float: left;
+    width: 400px; float: left;
 }
 
 #right{
-    margin-left: 720px;
+    margin-left: 300px;
 }
 
 .player{
@@ -52,6 +52,10 @@ td {
 }
 
 body{
+    background-image: url('../card/mat.jpg');
+}
+
+.canvas_div_pdf{
     background-image: url('../card/mat.jpg');
 }
 
