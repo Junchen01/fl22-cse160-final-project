@@ -233,6 +233,7 @@ function getCardArrays(){
  * @param {*} result the result structer save the result of the prob
  */
 function showResulet(result){
+    $( ".result" ).remove();
     for(let i = 0; i < playercount ; i++){
         let result_tmp = '<div class="result"><br><br><div class="innerResult"><h4>win: ' + result[i].win + '</h4>';
         result_tmp += '<h4>tie: ' + result[i].tie + '</h4></div></div>';
@@ -248,18 +249,25 @@ function showResulet(result){
 function showResuletTable(result){
     let resultTable = '';
     resultTable += '<tr>';
-    resultTable += '<td>Rank</td>';
+    resultTable += '<td style="background-color:rgba(253, 195, 103, 0.8)">Rank</td>';
     for(let j = 0; j < result.length; j++){
-        resultTable += '<td>Player' + j + '</td>';
+        resultTable += '<td style="background-color:rgba(60, 144, 133, 0.8);">Player' + j + '</td>';
     }
     resultTable += '</tr>';
     for(let i = 0; i < 10; i++){
         resultTable += '<tr>';
-        resultTable += "<td><p>" + result[0].handProbs[i].name + "</p></td>";
+        resultTable += '<td style="background-color:rgb(129, 200, 250, 0.8);"><p>' + result[0].handProbs[i].name + '</p></td>';
         for(let j = 0; j < result.length; j++){
-            resultTable += "<td><p>" + result[j].handProbs[i].prob + "</p></td>";
+            console.log(result[j].handProbs[i].rank_num);
+            if(result[j].handProbs[i].rank_num == 0){
+                resultTable += '<td style="background-color:rgba(253, 103, 103,0.4);"><p>';
+                resultTable +=  result[j].handProbs[i].prob + '</p></td>';
+            }else{
+                resultTable += '<td style="background-color:rgba(0, 150, 0,' + result[j].handProbs[i].rank_num * 2 + ');"><p>';
+                resultTable +=  result[j].handProbs[i].prob + '</p></td>';
+            }
         }
-        resultTable += "</tr>"
+        resultTable += '</tr>';
     }
     $("#resultTB").empty().append(resultTable);
 }

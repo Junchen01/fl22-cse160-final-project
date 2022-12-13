@@ -8,7 +8,7 @@ h4{
     background-color: rgb(253, 195, 103);
 }
 #resultTB{
-    background-color: rgb(157, 160, 156);
+    background-image: url('../card/background.jpg');
 }
 table, th, td {
     border: 1px solid;
@@ -53,4 +53,32 @@ td {
 
 body{
     background-image: url('../card/mat.jpg');
+}
+
+.result_6{
+    background-color: rgb(0, 150, 0, 0);
+}
+
+.result_5{
+    background-color: rgba(0, 150, 0, 0.2);
+}
+
+.result_4{
+    background-color: rgb(0, 150, 0, 0.4);
+}
+
+.result_3{
+    background-color: rgb(0, 150, 0, 0.6);
+}
+
+.result_2{
+    background-color: rgb(0, 150, 0, 0.8);
+}
+
+.result_1{
+    background-color: rgb(0, 150, 0, 0.9);
+}
+
+.result_0{
+    background-color: rgb(0, 150, 0, 1);
 }

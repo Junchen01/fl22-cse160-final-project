@@ -33,8 +33,9 @@ function cal_probs(hands_output){
         for(let j = 0; j < hands_output[i].handChances.length; j++){
             let name_temp = hands_output[i].handChances[j].name;
             let count_temp = hands_output[i].handChances[j].count;
-            let prob_tmp = (count_temp/total_hand * 100).toFixed(2) + '%';;
-            handProbs.push({name: name_temp, prob: prob_tmp});
+            let prob_tmp = (count_temp/total_hand * 100).toFixed(2) + '%';
+            let temp_pro = count_temp/total_hand;
+            handProbs.push({name: name_temp, prob: prob_tmp, rank_num: temp_pro});
         }
         let player = { count: total_hand, win: win_rate, tie: tie_rate, handProbs: handProbs};
         probs_output.push(player);
